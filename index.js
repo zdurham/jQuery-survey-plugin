@@ -21,7 +21,7 @@ jQuery.fn.extend({
       $(this).removeClass('not-active')
       $(this).append(renderSelected())
       answers.push($(this).attr('choice'))
-      console.log(answers)
+      
     })
 
     // De-select
@@ -30,7 +30,6 @@ jQuery.fn.extend({
       $(this).addClass('not-active')
       $(this).removeClass('active')
       answers.splice(answers.indexOf($(this).attr('choice')), 1)
-      console.log(answers)
     })
 
 
