@@ -5,6 +5,8 @@ jQuery.fn.extend({
 
     addFont('Montserrat:300|Raleway:300')
 
+    const answers = []
+
     let survey = renderForm(jsonInput)
     survey.append(renderQuestion(jsonInput.question))
     survey.append(renderAnswerContainer(jsonInput.answers))
@@ -13,47 +15,57 @@ jQuery.fn.extend({
     
     this.append(survey)
 
-    $(document).on('click', '.answer', function() {
-      $('#selected').remove()
-      $('.answer').removeClass('active')
-      
+    // Select
+    $(document).on('click', '.not-active', function() {
       $(this).addClass('active')
-
-
-      $('.answer.active').append(renderSelected())
+      $(this).removeClass('not-active')
+      $(this).append(renderSelected())
+      answers.push($(this).attr('choice'))
+      console.log(answers)
     })
 
+    // De-select
     $(document).on('click', '.active', function() {
-      $('#selected').remove()
-      $('.answer').removeClass('active')
+      $(this).children('.selected').remove()
+      $(this).addClass('not-active')
+      $(this).removeClass('active')
+      answers.splice(answers.indexOf($(this).attr('choice')), 1)
+      console.log(answers)
     })
 
 
     $(document).on('click', '#survey-submit', function(e) {
       e.preventDefault()
+      if (answers.length === 0) {
+        
+        $('.prompt').remove()
+        survey.append('<p class="prompt" style="text-align:center">You must select at least one given color to continue</p>')
+      }
+      else {
+        $('.message').remove()
 
-      $.post({
-        url: `https://cors-anywhere.herokuapp.com/${jsonInput.submitUrl}`,
-        data: {
-          answer: $('.active').attr('choice'),
-          optionalAnswer: $('#other').val().trim()
-        },
-        success: function(data, status) {
-          console.log(data)
-          console.log('it worked!')
-        },
-        error: function() {
-          console.log('something appears to have gone wrong! Please try again')
-        }
-      })
+        $.post({
+          url: `https://cors-anywhere.herokuapp.com/${jsonInput.submitUrl}`,
+          data: {
+            answer: answers,
+            other_answer: $('#other').val().trim()
+          },
+          success: function() {
+            console.log('it worked!')
+            $('.prompt').remove()
+            survey.append('<p class="prompt" style="text-align:center">Thank you for you answer!</p>')
+
+          },
+          error: function() {
+            console.log('something appears to have gone wrong! Please try again')
+          }
+        })
+      }
+      
     })
 
   }
 })
-
-function parser(input) {
-  console.log(input)
-}
 
 function renderForm(jsonInput) {
   return $('<form>').css({
@@ -100,7 +112,7 @@ function renderAnswerDiv(input) {
     'margin': '10px',
     'padding': '0 10px 0 10px',
     'cursor': 'pointer',
-  }).addClass('answer').attr('choice', input)
+  }).addClass('answer not-active').attr('choice', input)
   
 
   let answer = $('<p>').text(input)
@@ -149,7 +161,7 @@ function renderSelected() {
     'height': '10px',
     'width': '10px',
     'z-index': '20'
-  }).attr('id', 'selected')
+  }).attr('class', 'selected')
 
 }
 
