@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>jQuery tooling</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+  </head>
+  <body>
+    <div id='survey-root'>
+
+
+    </div>
+
+  
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src='index.js'></script>
+    <script>
+      let jsonSurveyConfiguration = {
+        "question": "What is your favorite color?",
+        "answers": ['Red', 'Green', 'Blue', 'Yellow'],
+        "submitUrl": "https://example.com/"
+      }
+
+      jQuery('#survey-root').renderSurvey(jsonSurveyConfiguration)
+    </script>
+  </body>
+  
+</html>
