@@ -103,7 +103,7 @@ function renderAnswerDiv(input) {
     'border-radius': '4px',
     'height': '40px',
     'width': '40%',
-    'background-color': '#ADD8E6',
+    'background-color': '#e3f2fd',
     'color': 'blue',
     'display': 'flex',
     'align-items': 'center',
@@ -122,7 +122,7 @@ function renderAnswerDiv(input) {
 function renderOptionalInput() {
   let container = $('<div>').css({'display': 'flex', 'justify-content': 'center'})
   let optionalInputDiv = $('<div>').css({
-    'background-color': '#ADD8E6',
+    'background-color': '#e3f2fd',
     'border-radius': '4px',
     'margin': '10px',
     'padding-left': '10px',
