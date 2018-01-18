@@ -33,7 +33,7 @@ jQuery.fn.extend({
       e.preventDefault()
 
       $.post({
-        url: jsonInput.submitUrl,
+        url: `https://cors-anywhere.herokuapp.com/${jsonInput.submitUrl}`,
         data: {
           answer: $('.active').attr('choice'),
           optionalAnswer: $('#other').val().trim()
